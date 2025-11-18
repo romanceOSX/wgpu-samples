@@ -17,9 +17,10 @@ use winit::{
 // state
 pub struct State {
     surface: wgpu::Surface<'static>,
-    surface_config: wgpu::SurfaceConfiguration,
     device: wgpu::Device,
     queue: wgpu::Queue,
+    surface_config: wgpu::SurfaceConfiguration,
+    is_surface_configured: bool,
     window: Arc<Window>,
 }
 
@@ -50,9 +51,30 @@ impl State {
                 trace: wgpu::Trace::Off,
             }).await?;
 
+        let surface_capabilities = surface.get_capabilities(&adapter);
+
+        let surface_format = surface_capabilities.formats.iter()
+            .find(|f| f.is_srgb())
+            .copied()
+            .unwrap_or(surface_capabilities.formats[0]);
+
+        let config = wgpu::SurfaceConfiguration {
+            usage: wgpu::TextureUsages::RENDER_ATTACHMENT,
+            format: surface_format,
+            width: size.width,
+            height: size.height,
+            present_mode: surface_capabilities.present_modes[0],
+            alpha_mode: surface_capabilities.alpha_modes[0],
+            view_formats: vec![],
+            desired_maximum_frame_latency: 2,
+        };
+
         Ok(Self {
             surface: surface,
-            //device: 
+            device: device,
+            queue: queue,
+            surface_config: config,
+            is_surface_configured: false,
             window: window,
         })
     }
