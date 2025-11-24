@@ -1,3 +1,22 @@
 --> https://www.w3.org/TR/webgpu/
 --> https://sotrh.github.io/learn-wgpu/#what-is-wgpu
 
+instance
+surface
+adapter
+(device, queue)
+surface
+
+
+Webgpu spec
+    --> 3.5
+Adapters (instances?) of type 'GpuAdapters'
+    GpuAdapters expose Adapters
+    Calling GpuAdapters::reques_device creates a
+    device
+
+    A device is a logical instantiation of an adapter
+
+
+Adapters represent an implementation of Webgpu
+You get the actual devices through the adapters
