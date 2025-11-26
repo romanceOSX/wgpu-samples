@@ -34,6 +34,35 @@ Textures and texture views
 
     A single texture consists of one or more texture subresources
 
+    Workflow
+        Load the image
+        Create a texture to holds the image's data
+        Load the bytes into the texture (CPU to GPU op done through the queue)
+        Create a Texture View to access the texture and a Sampler to retrieve the data
+
+    Texture view
+        It is a view into the texture resource, since the same texture resource can
+        be used differently in different places the view grants this access
+    
+    Textures -> the physical resource
+    Texture view -> what am I sampling?
+    Sampler -> how am I sampling it?
+
+
+Bind group
+    It describes a set of resources that can be accessed by a shader
+    Bind group layout, describes how the resource will be used
+    Bind group tells what is the resource
+    It is separated so we can change the bind group on the fly
+
+    Map:
+        ```
+        Pipeline Layout <=> Bind Group Layout <=> Bind Group <=> Texture View
+        ```
+
+Pipeline Layout
+    This contains a list of bindgroup layouts to use
+
 Shaders
     --> https://www.w3.org/TR/WGSL/
     The following shaders are supported
@@ -62,4 +91,28 @@ Buffers
         This is a 'store' of vertices, where we can reference those vertex by index
         later in the pipeline, working with 'references' allow for shallow copies
         which helps with duplicated/overlaping vertices
+
+General Pipeline workflows:
+    We define layouts, layouts describe how the pipeline will use the resources (extremely oversimplified)
+    Through the encoder (command buffer) we specify the concrete resources (non-layout) at runtime
+
+Comparision
+    BindGroupLayout     | Resource types
+    PipelineLayout      | Declares resources' interface
+    Bind Group          | Actual Resources
+
+Concepts:
+    - pipeline
+    - pipeline layout
+    - textures
+    - color attachments
+    - Vertex Buffers
+        - Vertex Buffers layout
+    - Shader modules
+
+    All of these are set through command buffers
+        Pipeline <=> layout's <=> resources
+        Pipeline <=> Pipeline Layout <=>  Bind Group Layout <=> Bind Group 
+        Pipeline <=> VertexBufferLayout <=> VertexBuffer
+        Pipeline <=> IndexBufferLayout <=> IndexBuffer
 
