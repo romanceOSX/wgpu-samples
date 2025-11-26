@@ -20,3 +20,46 @@ Adapters (instances?) of type 'GpuAdapters'
 
 Adapters represent an implementation of Webgpu
 You get the actual devices through the adapters
+
+Programming model
+    Operations are are available at speciifc timeline's states
+
+Textures and texture views
+    1/2/3-D arrays of data, which can contain multiple values per element to represent
+    things like colour
+    They can be used in many ways (determined by the GPUTextureUsage) such as:
+        - sampled/read/written by a compute/graphics pipeline shaders
+        - written by render pass outputs
+    They are stored within GPU memory
+
+    A single texture consists of one or more texture subresources
+
+Shaders
+    --> https://www.w3.org/TR/WGSL/
+    The following shaders are supported
+        - vertex
+        - fragment
+        - compute
+    
+    Vertices are then converted to fragments where one pixel gets at least one
+    fragment
+
+    The fragment shader decides the output color
+
+    WGSL is designed to be easily converted into the the different back-ends shading
+    language, this is done through the 'naga' crate in wgpu
+
+clip coordinates
+    --> https://en.wikipedia.org/wiki/Clip_coordinates
+    
+Buffers
+    - vertex
+        VertexBufferLayout
+            describes how the data is laid out in memory so it can correctly be
+            interpreted by the shader
+            Equivalent of input attribute bindings and descriptors in vulkan
+    - index
+        This is a 'store' of vertices, where we can reference those vertex by index
+        later in the pipeline, working with 'references' allow for shallow copies
+        which helps with duplicated/overlaping vertices
+
