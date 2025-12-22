@@ -111,8 +111,12 @@ Concepts:
     - Shader modules
 
     All of these are set through command buffers
-        Pipeline <=> layout's <=> resources
-        Pipeline <=> Pipeline Layout <=>  Bind Group Layout <=> Bind Group 
-        Pipeline <=> VertexBufferLayout <=> VertexBuffer
-        Pipeline <=> IndexBufferLayout <=> IndexBuffer
+        render_pass(Pipeline) <=> layout's <=> resources
+        render_pass(Pipeline) <=> Pipeline Layout <=>  Bind Group Layout <=> Bind Group <=> Texture View <=> Texture
+        render_pass(Pipeline) <=> VertexBufferLayout <=> VertexBuffer
+        render_pass(Pipeline) <=>  <=> IndexBuffer
+
+NOTES:
+    There is no such thing as an index buffer layout, since indexes are just that, indexes... there is
+    no need to create a layout to describe them
 
