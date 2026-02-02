@@ -1,6 +1,8 @@
-mod wgpu;
+//
+// Main module
+//
 
 fn main() {
-    wgpu::run().unwrap();
+    webgpu_samples::wgpu::run().unwrap();
 }
 
