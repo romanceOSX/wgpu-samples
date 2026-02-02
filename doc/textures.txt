@@ -1,0 +1,17 @@
+--> https://www.w3.org/TR/webgpu/#textures
+
+Creating the texture resource
+    queue.write_texture
+        -> Texture descriptor
+        -> pixel_data 
+
+View and Sampler
+    Texture::create_view
+    Sampler::create_sampler
+
+Bindings
+    Bind group layout
+    Bind group
+
+pipeline_layout <===>  bind_group_layout
+
