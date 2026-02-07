@@ -1,7 +1,37 @@
 use log::info;
 use wgpu::{Instance};
 
-fn main() {
+fn run() {
+
+    //
+    // Instance, Adapter and Device
+    //
+
+    let instance = Instance::default();
+    println!("Enumerating available adapters:");
+    for a in instance.enumerate_adapters(wgpu::Backends::PRIMARY) {
+        println!("- {:?}", a.get_info());
+    }
+
+    let adapter = pollster::block_on(instance.request_adapter(&wgpu::RequestAdapterOptionsBase {
+        power_preference: wgpu::PowerPreference::HighPerformance,
+        force_fallback_adapter: false,
+        compatible_surface: None, 
+    })).unwrap();
+
+    println!("- Selected Adapter:\n{:?}", adapter.get_info());
+
+    let (dev, queue) = pollster::block_on(
+        adapter.request_device(&wgpu::DeviceDescriptor::default())
+    ).unwrap();
+
+    //
+    //
+    //
+
+}
+
+fn stub() {
     env_logger::init();
 
     let instance = Instance::new(&wgpu::InstanceDescriptor {
@@ -30,5 +60,9 @@ fn main() {
         memory_hints: Default::default(),
         trace: wgpu::Trace::Off,
     })).unwrap();
+}
+
+fn main() {
+    run();
 }
 
