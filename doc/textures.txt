@@ -15,3 +15,40 @@ Bindings
 
 pipeline_layout <===>  bind_group_layout
 
+Rasterization
+    rasteize(List<Primitive>, state) -> List<RasterizationPoint> 
+
+    We are given a list of primitives, we give ouw a list of rasterization points
+    with the interpolated properties from the primitive
+
+    This stage maps the generated primitives into the 2-dimensional rendering area of the
+    framebuffer (Into the attachments in the current render pass)
+
+    The output of this stage is described in terms of 'Rasterization Points' TODO: describe this thang
+
+    Fragment Processing
+        This stage produces a fragment for each 'Rasterization Point'
+
+    Framebuffer Coordinates
+        Standard Sample Pattern
+            These are represented in (x, y) coords, note that a single coordinate, say (0,0)
+            retpresents a single point of the pixel 'square', so a single pixel would be represented
+            by the following points: {(0,0), (0,1), (1,1), (1, 0)}
+            This is known as the 'Standard Sample Pattern'
+
+    Framebuffer Destination
+        - position (framebuff coords)
+        - sample Index (just an index)
+
+    Rasterization Points
+        - fragment destination (which pixel it affects)
+        - mask (???)
+        - frontFacing (if it is facing front)
+        - perspective divisor (the w component in clip space, i.e. 1/w)
+        - depth
+        - vertices (which vertices does this single pixel contains)
+        - barycentric coords (???)
+
+Fragment Processing
+    process_fragment(rasterization_point, descriptor, state) -> fragment
+
