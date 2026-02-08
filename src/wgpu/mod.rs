@@ -15,18 +15,18 @@ use winit::{
     keyboard::{
         KeyCode,
         PhysicalKey,
-    },
-    window::Window,
+    }, window::Window,
 };
 
 use wgpu::util::DeviceExt;
 
 const VERTICES: &[Vertex] = &[
-    Vertex { position: [-0.0868241, 0.49240386, 0.0], tex_coords: [0.4131759, 0.00759614], }, // A
-    Vertex { position: [-0.49513406, 0.06958647, 0.0], tex_coords: [0.0048659444, 0.43041354], }, // B
-    Vertex { position: [-0.21918549, -0.44939706, 0.0], tex_coords: [0.28081453, 0.949397], }, // C
-    Vertex { position: [0.35966998, -0.3473291, 0.0], tex_coords: [0.85967, 0.84732914], }, // D
-    Vertex { position: [0.44147372, 0.2347359, 0.0], tex_coords: [0.9414737, 0.2652641], }, // E
+    //                  x               y                   z
+    Vertex { position: [-0.0868241,     0.49240386,    0.0],     tex_coords: [0.4131759,     1.0 - 0.00759614], }, // A
+    Vertex { position: [-0.49513406,    0.06958647,    0.0],     tex_coords: [0.0048659444,  1.0 - 0.43041354], }, // B
+    Vertex { position: [-0.21918549,    -0.44939706,   0.0],     tex_coords: [0.28081453,    1.0 - 0.949397], }, // C
+    Vertex { position: [0.35966998,     -0.3473291,    0.0],     tex_coords: [0.85967,       1.0 - 0.84732914], }, // D
+    Vertex { position: [0.44147372,     0.2347359,     0.0],     tex_coords: [0.9414737,     1.0 - 0.2652641], }, // E
 ];
 
 const INDICES: &[u16] = &[
@@ -133,6 +133,11 @@ impl State {
         //
         // Bind Group
         //
+        
+        //
+        // the bind group just declares resources that are accessible within the programmable
+        // state, this time these are the texture and the sampler
+        //
 
         // bind group, describes a set of textures and how they can be accessed by the shader
         let texture_bind_group_layout =
@@ -213,6 +218,15 @@ impl State {
                 buffers: &[Vertex::desc()],
                 compilation_options: wgpu::PipelineCompilationOptions::default() 
             },
+            primitive: wgpu::PrimitiveState {
+                topology: wgpu::PrimitiveTopology::TriangleList,
+                strip_index_format: None,
+                front_face: wgpu::FrontFace::Ccw,
+                cull_mode: Some(wgpu::Face::Back),
+                polygon_mode: wgpu::PolygonMode::Fill,
+                unclipped_depth: false,
+                conservative: false,
+            },
             fragment: Some(wgpu::FragmentState {
                 module: &shader,
                 entry_point: Some("fs_main"),
@@ -223,15 +237,6 @@ impl State {
                 })],
                 compilation_options: wgpu::PipelineCompilationOptions::default(), 
             }),
-            primitive: wgpu::PrimitiveState {
-                topology: wgpu::PrimitiveTopology::TriangleList,
-                strip_index_format: None,
-                front_face: wgpu::FrontFace::Ccw,
-                cull_mode: Some(wgpu::Face::Back),
-                polygon_mode: wgpu::PolygonMode::Fill,
-                unclipped_depth: false,
-                conservative: false,
-            },
             depth_stencil: None,
             multisample: wgpu::MultisampleState { 
                 count: 1,
@@ -290,14 +295,14 @@ impl State {
                 label: Some("Render Pass"),
                 color_attachments: &[
                     Some(wgpu::RenderPassColorAttachment {
-                        depth_slice: None,
                         view: &view,
+                        depth_slice: None,
                         resolve_target: None,
                         ops: wgpu::Operations {
                             load: wgpu::LoadOp::Clear(wgpu::Color {
-                                r: 0.1,
-                                g: 0.2,
-                                b: 0.3,
+                                r: 0.0,
+                                g: 0.0,
+                                b: 0.0,
                                 a: 1.0 
                             }),
                             store: wgpu::StoreOp::Store 
