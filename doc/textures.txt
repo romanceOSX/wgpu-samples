@@ -52,3 +52,12 @@ Rasterization
 Fragment Processing
     process_fragment(rasterization_point, descriptor, state) -> fragment
 
+
+Bind groups vs Bind group layouts
+    The layouts define the interface, it is used so the pipeline knows beforehand
+    the resources it uses for the programmable stages
+
+    The bind groups describe the actual resources which are set at runtime, not at
+    pipeline creation
+
+
