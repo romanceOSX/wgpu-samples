@@ -1,0 +1,6 @@
+--> https://gpuweb.github.io/gpuweb/#bindings
+
+Resources set at runtime (at the render pass), get describred through interfaces objects 
+(bind group layout) at the object creation,
+then they get binded to these interfaces with their actual resources (bind groups) at runtime 
+
